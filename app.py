@@ -4,13 +4,8 @@ import streamlit as st
 st.title("Simulateur de Rentabilité Locative")
 st.subheader("Résultats de la Simulation")
 
-col1, col2 = st.columns([1, 1])
-
-# Vérifier si on doit mettre à jour
-if "mettre_a_jour" in st.session_state and st.session_state["mettre_a_jour"]:
-    # Réinitialisation de la clé de mise à jour pour éviter un recalcul répétitif
-    del st.session_state["mettre_a_jour"]
-    
+# Conteneur pour afficher les résultats en haut avec une structure plus lisible
+with st.container():
     # Calculs préliminaires
     revenu_avant = st.session_state.get("revenu_avant", 3350)  # Valeur par défaut
     loyer_mensuel = st.session_state.get("loyer_mensuel", 800)  # Valeur par défaut
@@ -54,6 +49,7 @@ if "mettre_a_jour" in st.session_state and st.session_state["mettre_a_jour"]:
     st.write("---")  # Ligne de séparation pour mieux structurer la page
 
     # Affichage du taux d'endettement final sur une nouvelle ligne
+    
 
 # ---- Formulaire d'Entrées : Situation personnelle ----
 with st.container():
@@ -69,6 +65,7 @@ with st.container():
     
     with col2:
         col2.metric("Taux d'endettement actuel (%)", f"{mensualite_avant/(revenu_avant - charge_avant)*100:,.2f}".replace(',', ' '))
+        
 
 # ---- Formulaire d'Entrées : Bien locatif ----
 with st.container():
@@ -82,6 +79,7 @@ with st.container():
         loyer_mensuel = st.number_input("Revenu locatif mensuel (€)", min_value=0, max_value=5000, value=500, step=10, key="loyer_mensuel")
         charges_copropriete = st.number_input("Charges de copropriété (mensuel) (€)", min_value=0, max_value=1000, value=200, step=5)
         taxe_fonciere = st.number_input("Taxe foncière (annuel) (€)", min_value=0, max_value=5000, value=200, step=10)
+        
         
     with col2:
         apport = st.number_input("Apport personnel (€)", min_value=0, max_value=4000000, value=0, step=5000)
@@ -108,4 +106,4 @@ cout_total_credit = mensualite_pret_totale * duree_pret * 12
 st.session_state["frais_annuels_total"] = frais_annuels_total
 st.session_state["mensualite_totale"] = mensualite_pret_totale + mensualite_avant 
 st.session_state["cout_total_credit"] = cout_total_credit
-st.session_state["frais_notaires"] = frais_notaires  # Mise à jour des frais de notaires
+st.session_state["frais_notaires"] = frais_notaires  # Mise à jour des frais de notaires 
