@@ -5,27 +5,6 @@ st.title("Simulateur de Rentabilité Locative")
 st.subheader("Résultats de la Simulation")
 
 col1, col2 = st.columns([1, 1])
-with col1:
-    if st.button("Mettre à jour"):
-        st.session_state["mettre_a_jour"] = True  # Pour trigger les calculs et mises à jour
-with col2:
-    if st.button("Réinitialiser les paramètres"):
-        # Réinitialisation des valeurs de session_state aux valeurs par défaut
-        st.session_state["revenu_avant"] = 3350
-        st.session_state["loyer_mensuel"] = 800
-        st.session_state["prix_achat"] = 200000
-        st.session_state["apport"] = 200000
-        st.session_state["frais_notaires"] = 200000
-        st.session_state["revenu_loc_avant"] = 0
-        st.session_state["pourcentage_revenu_locatif_avant"] = 0.8
-        st.session_state["taux_frais_notaires"] = 8
-        st.session_state["charge_avant"] = 0
-        st.session_state["mensualite_avant"] = 0
-        st.session_state["frais_annuels_total"] = 0
-        st.session_state["mensualite_totale"] = 0
-        st.session_state["cout_total_credit"] = 0
-        st.session_state.clear()  # Vous pouvez enlever cette ligne si vous préférez ne pas tout effacer.
-        st.experimental_rerun()  # Cela permet de rafraîchir l'application après réinitialisation.
 
 # Vérifier si on doit mettre à jour
 if "mettre_a_jour" in st.session_state and st.session_state["mettre_a_jour"]:
