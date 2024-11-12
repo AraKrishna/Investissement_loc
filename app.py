@@ -56,7 +56,7 @@ with st.container():
     st.write("---")  # Ligne de séparation pour mieux structurer la page
     col5, col6 = st.columns([1, 1])  # Troisième ligne (pour cashflow et mensualités du nouveau prêt)
     col5.metric("Cashflow mensuel (€) - nouveau bien", f"{cashflow_mensuel:,.2f}".replace(',', ' '))
-    col6.metric("Mensualité (prêt + assurance)  - nouveau prêt (€)", f"{mensualite_pret_totale:,.2f}".replace(',', ' '))
+    col6.metric("Mensualité (prêt + assurance)  - nouveau prêt (€)", f"{mensualite_totale:,.2f}".replace(',', ' '))
     
     st.write("---")  # Ligne de séparation pour mieux structurer la page
 # ---- Formulaire d'Entrées : Situation personnelle ----
