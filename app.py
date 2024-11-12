@@ -40,10 +40,11 @@ with st.container():
     # Calcul du cashflow mensuel
     frais_annuels_total = st.session_state.get("frais_annuels_total", 0)
     cashflow_mensuel = loyer_mensuel - (frais_annuels_total / 12) - mensualite_pret_totale
+    frais_mensuels = frais_annuels_total/12
 
     # Organisation des résultats sur deux lignes
     col1, col2 = st.columns([1, 1])  # Première ligne
-    col1.metric("Revenu après investissement (€)", f"{AV_total_revenu + (loyer_mensuel)-frais_annuels_total/12:,.2f}".replace(',', ' '))
+    col1.metric("Revenu après investissement (€)", f"{AV_revenu + AV_revenu_locatif + (loyer_mensuel)-frais_mensuels :,.2f}".replace(',', ' '))
     col2.metric("Rentabilité brute (%)", f"{rentabilite_brute:,.2f}".replace(',', ' '))
 
     col3, col4 = st.columns([1, 1])  # Deuxième ligne
