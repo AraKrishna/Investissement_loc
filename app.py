@@ -75,6 +75,9 @@ with st.container():
         taux_assurance = st.number_input("Taux d'assurance (%)", min_value=0.0, max_value=4.0, value=0.3, step=0.1)
         duree_pret = st.slider("Durée du prêt (années)", 1, 30, 20)
         pourcentage_revenu_locatif = st.slider("Pourcentage du revenu locatif pris en compte par la banque (%)", 50, 100, 80)
+        st.write(f"Mensualité pour investissement(€)): {mensualite_pret_totale:,.2f} €")
+        st.write(f"Mensualité pour investissement(€)): {mensualite_pret_totale:,.2f} €")
+        st.write(f"Cashflow mensuel(€)): {cashflow_mensuel:,.2f} €")
         
 # ---- Calculs et mise à jour des valeurs dans session_state ----
 # Calcul des frais annuels, mensualités, et frais de notaires
@@ -84,14 +87,16 @@ cout_total_bien = prix_achat + frais_notaires  # Le coût total du bien inclut m
 taux_mensuel = interet_annuel / 100 / 12
 mensualite_pret = montant_pret * taux_mensuel / (1 - (1 + taux_mensuel) ** (-duree_pret * 12))
 assurance_mensuelle = (montant_pret * (taux_assurance / 100)) / 12
-mensualite_totale = mensualite_pret + assurance_mensuelle + mensualite_avant 
+mensualite_pret_totale = mensualite_pret + assurance_mensuelle
+cashflow_mensuel = loyer_mensuel - frais_annuels_total/12
+
 
 
 cout_total_credit = mensualite_totale * duree_pret * 12
 
 # Mise à jour des résultats calculés dans session_state pour les afficher en haut
 st.session_state["frais_annuels_total"] = frais_annuels_total
-st.session_state["mensualite_totale"] = mensualite_totale
+st.session_state["mensualite_totale"] = mensualite_pret_totale + mensualite_avant 
 st.session_state["cout_total_credit"] = cout_total_credit
 st.session_state["frais_notaires"] = frais_notaires  # Mise à jour des frais de notaires
 st.session_state["cout_total_bien"] = cout_total_bien  # Mise à jour du coût total du bien
