@@ -4,6 +4,7 @@ import streamlit as st
 st.title("Simulateur de Rentabilité Locative")
 st.subheader("Résultats de la Simulation")
 
+
 # Conteneur pour afficher les résultats en haut avec une structure plus lisible
 with st.container():
     # Calculs préliminaires
@@ -20,12 +21,14 @@ with st.container():
     mensualite_pret_totale = st.session_state.get("mensualite_pret_totale", 0)  # Valeur par défaut
     taux_frais_notaires = st.session_state.get("taux_frais_notaires", 8)  # Valeur par défaut : 8%
 
+    # Assurez-vous que "travaux" est défini ou définissez-le ici si il est utilisé plus tard dans calculs
+    travaux = st.session_state.get("travaux", 0)
     # Calcul des frais de notaires et coût total du bien
     frais_notaires = (taux_frais_notaires / 100) * prix_achat
     cout_total_bien = prix_achat + frais_notaires + travaux  # Le coût total du bien inclut les frais de notaires
 
     # Rentabilité brute et nette
-    rentabilite_brute = (revenu_locatif_annuel) / (cout_total_bien) * 100
+    rentabilite_brute = (revenu_locatif_annuel / cout_total_bien) * 100
     rentabilite_nette = ((revenu_locatif_annuel - st.session_state.get("frais_annuels_total", 0)) / cout_total_bien) * 100
 
     # Calcul du taux d'endettement final
@@ -34,7 +37,7 @@ with st.container():
     pourcentage_revenu_locatif = st.session_state.get("pourcentage_revenu_locatif", 80)
     taux_endettement_final = (
         (mensualite_pret_totale + AV_mensualite) /
-        (AV_charges + AV_revenu + AV_revenu_locatif * (AV_pourcentage_revenu_locatif / 100)+loyer_mensuel*pourcentage_revenu_locatif/100)
+        (AV_charges + AV_revenu + AV_revenu_locatif * (AV_pourcentage_revenu_locatif / 100) + loyer_mensuel * pourcentage_revenu_locatif / 100)
     ) * 100
 
     # Calcul du cashflow mensuel
