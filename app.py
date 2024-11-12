@@ -30,8 +30,8 @@ with st.container():
     
     with col1:
         revenu_avant = st.number_input("Revenu avant investissement (€)", min_value=1000, max_value=20000, value=3350, step=10, key="revenu_avant")
-        charge_avant = st.number_input("Charges avant investissement (€)", min_value=0, max_value=20000, value=3350, step=10)
-        mensualite_avant = st.number_input("Mensualité avant investissement (€)", min_value=0, max_value=20000, value=3350, step=10)
+        charge_avant = st.number_input("Charges avant investissement (€)", min_value=0, max_value=20000, value=0, step=10)
+        mensualite_avant = st.number_input("Mensualité avant investissement (€)", min_value=0, max_value=20000, value=0, step=10)
     
     with col2:
         pourcentage_revenu_locatif = st.slider("Pourcentage du revenu locatif pris en compte par la banque (%)", 50, 100, 80)
