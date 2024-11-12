@@ -37,8 +37,7 @@ with st.container():
         mensualite_avant = st.number_input("Mensualité avant investissement (€)", min_value=0, max_value=20000, value=0, step=10)
     
     with col2:
-        taux_endettement_actuel = mensualite_avant/(revenu_avant - charge_avant)
-        col2.metric("Taux d'endettement actuel (%)", f"{mensualite_avant/(revenu_avant - charge_avant):,.2f}".replace(',', ' '))
+        col2.metric("Taux d'endettement actuel (%)", f"{mensualite_avant/(revenu_avant - charge_avant)*100:,.2f}".replace(',', ' '))
         pourcentage_revenu_locatif = st.slider("Pourcentage du revenu locatif pris en compte par la banque (%)", 50, 100, 80)
 
 # ---- Formulaire d'Entrées : Bien locatif ----
