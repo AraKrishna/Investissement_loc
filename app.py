@@ -90,20 +90,23 @@ with st.container():
         pourcentage_revenu_locatif = st.slider("Pourcentage du revenu locatif pris en compte par la banque (%)", 50, 100, 80)
 
 # ---- Calculs et mise à jour des valeurs dans session_state ----
-# Calcul des frais annuels, mensualités, et frais de notaires
-frais_annuels_total = (charges_copropriete * 12) + taxe_fonciere
-frais_notaires = (taux_frais_notaires / 100) * prix_achat  # Calcul des frais de notaires avec le taux personnalisé
-cout_total_bien = prix_achat + frais_notaires  # Le coût total du bien inclut maintenant les frais de notaires
-taux_mensuel = interet_annuel / 100 / 12
-mensualite_pret = montant_pret * taux_mensuel / (1 - (1 + taux_mensuel) ** (-duree_pret * 12))
-assurance_mensuelle = (montant_pret * (taux_assurance / 100)) / 12
-mensualite_pret_totale = mensualite_pret + assurance_mensuelle
-cashflow_mensuel = loyer_mensuel - frais_annuels_total / 12
+# Ajouter un bouton pour calculer et mettre à jour les résultats
+if st.button("Calculer"):
+    # Calcul des frais annuels, mensualités, et frais de notaires
+    frais_annuels_total = (charges_copropriete * 12) + taxe_fonciere
+    frais_notaires = (taux_frais_notaires / 100) * prix_achat  # Calcul des frais de notaires avec le taux personnalisé
+    cout_total_bien = prix_achat + frais_notaires  # Le coût total du bien inclut maintenant les frais de notaires
+    taux_mensuel = interet_annuel / 100 / 12
+    mensualite_pret = montant_pret * taux_mensuel / (1 - (1 + taux_mensuel) ** (-duree_pret * 12))
+    assurance_mensuelle = (montant_pret * (taux_assurance / 100)) / 12
+    mensualite_pret_totale = mensualite_pret + assurance_mensuelle
+    cashflow_mensuel = loyer_mensuel - frais_annuels_total / 12
 
-cout_total_credit = mensualite_pret_totale * duree_pret * 12
+    cout_total_credit = mensualite_pret_totale * duree_pret * 12
 
-# Mise à jour des résultats calculés dans session_state pour les afficher en haut
-st.session_state["frais_annuels_total"] = frais_annuels_total
-st.session_state["mensualite_totale"] = mensualite_pret_totale + mensualite_avant 
-st.session_state["cout_total_credit"] = cout_total_credit
-st.session_state["frais_notaires"] = frais_notaires  # Mise à jour des frais de notaires 
+    # Mise à jour des résultats calculés dans session_state pour les afficher en haut
+    st.session_state["frais_annuels_total"] = frais_annuels_total
+    st.session_state["mensualite_totale"] = mensualite_pret_totale + mensualite_avant 
+    st.session_state["cout_total_credit"] = cout_total_credit
+    st.session_state["frais_notaires"] = frais_notaires  # Mise à jour des frais de notaires 
+    st.experimental_rerun()  # Rechargement de l'application pour afficher les nouveaux résultats
