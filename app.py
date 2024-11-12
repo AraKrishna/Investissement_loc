@@ -25,7 +25,7 @@ with st.container():
     cout_total_bien = prix_achat + frais_notaires  # Le coût total du bien inclut les frais de notaires
 
     # Rentabilité brute et nette
-    rentabilite_brute = (revenu_locatif_annuel / (prix_achat+frais_notaires) * 100
+    rentabilite_brute = (revenu_locatif_annuel / (cout_total_bien) * 100
     rentabilite_nette = ((revenu_locatif_annuel - st.session_state.get("frais_annuels_total", 0)) / cout_total_bien) * 100
 
     # Calcul du taux d'endettement final
