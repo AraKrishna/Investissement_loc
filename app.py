@@ -38,7 +38,7 @@ with st.container():
     
     with col2:
         col2.metric("Taux d'endettement actuel (%)", f"{mensualite_avant/(revenu_avant - charge_avant)*100:,.2f}".replace(',', ' '))
-        pourcentage_revenu_locatif = st.slider("Pourcentage du revenu locatif pris en compte par la banque (%)", 50, 100, 80)
+        
 
 # ---- Formulaire d'Entrées : Bien locatif ----
 with st.container():
@@ -50,6 +50,7 @@ with st.container():
         loyer_mensuel = st.number_input("Revenu locatif mensuel (€)", min_value=200, max_value=5000, value=800, step=50, key="loyer_mensuel")
         charges_copropriete = st.number_input("Charges de copropriété (mensuel) (€)", min_value=0, max_value=1000, value=50, step=10)
         taxe_fonciere = st.number_input("Taxe foncière (annuel) (€)", min_value=0, max_value=5000, value=500, step=50)
+        pourcentage_revenu_locatif = st.slider("Pourcentage du revenu locatif pris en compte par la banque (%)", 50, 100, 80)
 
     with col2:
         travaux = st.number_input("Travaux (facultatif) (€)", min_value=0, max_value=50000, value=0, step=1000)
