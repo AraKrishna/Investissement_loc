@@ -75,6 +75,7 @@ with st.container():
         taux_assurance = st.number_input("Taux d'assurance (%)", min_value=0.0, max_value=4.0, value=0.3, step=0.1)
         duree_pret = st.slider("Durée du prêt (années)", 1, 30, 20)
         pourcentage_revenu_locatif = st.slider("Pourcentage du revenu locatif pris en compte par la banque (%)", 50, 100, 80)
+        st.write("Mensualité (prêt + assurance) (€)", f"{mensualite_totale:,.2f}".replace(',', ' '))
         
 # ---- Calculs et mise à jour des valeurs dans session_state ----
 # Calcul des frais annuels, mensualités, et frais de notaires
