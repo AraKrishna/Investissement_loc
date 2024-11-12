@@ -25,7 +25,7 @@ with st.container():
     # Rentabilité brute et nette
     rentabilite_brute = (revenu_locatif_annuel / prix_achat) * 100
     rentabilite_nette = ((revenu_locatif_annuel - st.session_state.get("frais_annuels_total", 0)) / cout_total_bien) * 100
-    mensualite_totale = st.session_state.get("mensualite_totale", 0)+st.session_state.get("mensualite_avant", 0)
+    mensualite_totale_avantapres = st.session_state.get("mensualite_totale", 0)+st.session_state.get("mensualite_avant", 0)
     cout_total_credit = st.session_state.get("cout_total_credit", 0)
 
     # Organisation des résultats principaux sur une ligne, avec des colonnes larges pour les lire d'un coup d'œil
@@ -33,7 +33,7 @@ with st.container():
     col1.metric("Revenu après investissement (€)", f"{Total_revenu_avant + (loyer_mensuel * 0.8):,.2f}".replace(',', ' '))
     col2.metric("Rentabilité brute (%)", f"{rentabilite_brute:,.2f}".replace(',', ' '))
     col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:,.2f}".replace(',', ' '))
-    col4.metric("Mensualité (prêt + assurance) (€)", f"{mensualite_totale:,.2f}".replace(',', ' '))
+    col4.metric("Mensualité (prêt + assurance) (€)", f"{mensualite_totale_avantapres:,.2f}".replace(',', ' '))
 
     st.write("---")  # Ligne de séparation pour mieux structurer la page
 
