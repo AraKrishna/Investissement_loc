@@ -35,6 +35,12 @@ with st.container():
     col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:,.2f}".replace(',', ' '))
     col4.metric("Mensualité (prêt + assurance) (€)", f"{mensualite_totale:,.2f}".replace(',', ' '))
 
+    # Affichage des autres informations calculées
+    st.write(f"### Frais de notaires estimés : {frais_notaires:,.2f} €")
+    st.write(f"### Coût total du bien (y compris frais de notaires) : {cout_total_bien:,.2f} €")
+    st.write(f"### Mensualités totales (prêt + assurance) : {mensualite_totale:,.2f} €")
+    st.write(f"### Cashflow mensuel : {cashflow_mensuel:,.2f} €")
+
     st.write("---")  # Ligne de séparation pour mieux structurer la page
 
 # ---- Formulaire d'Entrées : Situation personnelle ----
@@ -93,3 +99,4 @@ st.session_state["frais_annuels_total"] = frais_annuels_total
 st.session_state["mensualite_totale"] = mensualite_pret_totale + mensualite_avant 
 st.session_state["cout_total_credit"] = cout_total_credit
 st.session_state["frais_notaires"] = frais_notaires  # Mise à jour des frais de notaires
+st.session_state["cout_total_bien"] = cout_total_bien  # Mise à jour du coût total du bien
