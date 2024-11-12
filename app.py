@@ -47,7 +47,7 @@ with st.container():
 
     col3, col4 = st.columns([1, 1])  # Deuxième ligne
     col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:,.2f}".replace(',', ' '))
-    col4.metric("Mensualité totale (€)", f"{mensualite_totale:,.2f}".replace(',', ' '))
+    col4.metric("Mensualité totale (€)", f"{mensualite_totale+mensualite_avant:,.2f}".replace(',', ' '))
     
 
     
