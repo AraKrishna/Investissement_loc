@@ -15,8 +15,16 @@ with st.container():
     revenu_locatif_annuel = loyer_mensuel * 12
     Total_revenu_avant = revenu_avant + revenu_loc_avant * pourcentage_revenu_locatif_avant
 
+    # Récupération du taux des frais de notaires, avec une valeur par défaut de 7%
+    taux_frais_notaires = st.session_state.get("taux_frais_notaires", 8)  # Valeur par défaut : 8%
+
+    # Calcul des frais de notaires en fonction du taux
+    frais_notaires = (taux_frais_notaires / 100) * prix_achat
+    cout_total_bien = prix_achat + frais_notaires  # Le coût total du bien inclut maintenant les frais de notaires
+
+    # Rentabilité brute et nette
     rentabilite_brute = (revenu_locatif_annuel / prix_achat) * 100
-    rentabilite_nette = ((revenu_locatif_annuel - st.session_state.get("frais_annuels_total", 0)) / prix_achat) * 100
+    rentabilite_nette = ((revenu_locatif_annuel - st.session_state.get("frais_annuels_total", 0)) / cout_total_bien) * 100
     mensualite_totale = st.session_state.get("mensualite_totale", 0)
     cout_total_credit = st.session_state.get("cout_total_credit", 0)
 
@@ -52,7 +60,7 @@ with st.container():
 
     with col1:
         prix_achat = st.number_input("Prix du bien (€) - Frais d'agence compris", min_value=0, max_value=4000000, value=100000, step=1000, key="prix_achat")
-        fdn = 0.08 * st.session_state.get("prix_achat", 3350)  # Calcul des frais de notaires à 8% du prix d'achat
+        taux_frais_notaires = st.slider("Taux des frais de notaires (%)", 1, 15, 8, key="taux_frais_notaires")  # Taux des frais de notaires (par défaut 8%)
         loyer_mensuel = st.number_input("Revenu locatif mensuel (€)", min_value=0, max_value=5000, value=500, step=10, key="loyer_mensuel")
         charges_copropriete = st.number_input("Charges de copropriété (mensuel) (€)", min_value=0, max_value=1000, value=200, step=5)
         taxe_fonciere = st.number_input("Taxe foncière (annuel) (€)", min_value=0, max_value=5000, value=200, step=10)
@@ -69,7 +77,8 @@ with st.container():
 # ---- Calculs et mise à jour des valeurs dans session_state ----
 # Calcul des frais annuels, mensualités, et frais de notaires
 frais_annuels_total = (charges_copropriete * 12) + taxe_fonciere
-frais_notaires = fdn  # frais de notaires calculés à partir du prix d'achat
+frais_notaires = (taux_frais_notaires / 100) * prix_achat  # Calcul des frais de notaires avec le taux personnalisé
+cout_total_bien = prix_achat + frais_notaires  # Le coût total du bien inclut maintenant les frais de notaires
 taux_mensuel = interet_annuel / 100 / 12
 mensualite_pret = montant_pret * taux_mensuel / (1 - (1 + taux_mensuel) ** (-duree_pret * 12))
 assurance_mensuelle = (montant_pret * (taux_assurance / 100)) / 12
@@ -81,6 +90,7 @@ st.session_state["frais_annuels_total"] = frais_annuels_total
 st.session_state["mensualite_totale"] = mensualite_totale
 st.session_state["cout_total_credit"] = cout_total_credit
 st.session_state["frais_notaires"] = frais_notaires  # Mise à jour des frais de notaires
+st.session_state["cout_total_bien"] = cout_total_bien  # Mise à jour du coût total du bien
 
 # ---- Affichage des frais de notaires ----
-st.write(f"Frais de notaires estimés : {frais_notaires:,.2f} €")
+st.write(f"Frais de notaires estimés (taux {taux_frais_notaires}%): {frais_notaires:,.2f} €")
