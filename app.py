@@ -84,7 +84,7 @@ cout_total_bien = prix_achat + frais_notaires  # Le coût total du bien inclut m
 taux_mensuel = interet_annuel / 100 / 12
 mensualite_pret = montant_pret * taux_mensuel / (1 - (1 + taux_mensuel) ** (-duree_pret * 12))
 assurance_mensuelle = (montant_pret * (taux_assurance / 100)) / 12
-mensualite_totale = mensualite_pret + assurance_mensuelle
+mensualite_totale = mensualite_pret + assurance_mensuelle + mensualite_avant 
 
 
 cout_total_credit = mensualite_totale * duree_pret * 12
