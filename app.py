@@ -48,13 +48,13 @@ with st.container():
     col3, col4 = st.columns([1, 1])  # Deuxième ligne
     col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:,.2f}".replace(',', ' '))
     col4.metric("Mensualité totale (€)", f"{mensualite_totale:,.2f}".replace(',', ' '))
+    
 
-    col5, col6 = st.columns([1, 1])  # Troisième ligne (pour cashflow et mensualités du nouveau prêt)
     
 
     st.subheader(f"Taux d'endettement final (%) : {taux_endettement_final:,.2f}")
     st.write("---")  # Ligne de séparation pour mieux structurer la page
-
+    col5, col6 = st.columns([1, 1])  # Troisième ligne (pour cashflow et mensualités du nouveau prêt)
     col5.metric("Cashflow mensuel (€) - nouveau bien", f"{cashflow_mensuel:,.2f}".replace(',', ' '))
     col6.metric("Mensualité (prêt + assurance)  - nouveau prêt (€)", f"{mensualite_totale:,.2f}".replace(',', ' '))
     
