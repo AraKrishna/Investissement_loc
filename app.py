@@ -11,54 +11,45 @@ with st.container():
     loyer_mensuel = st.session_state.get("loyer_mensuel", 800)  # Valeur par défaut
     prix_achat = st.session_state.get("prix_achat", 200000)  # Valeur par défaut
     apport = st.session_state.get("apport", 200000)  # Valeur par défaut
-    frais_notaires = st.session_state.get("frais_notaires", 200000)  # Valeur par défaut
     revenu_loc_avant = st.session_state.get("revenu_loc_avant", 0)  # Valeur par défaut
     pourcentage_revenu_locatif_avant = st.session_state.get("pourcentage_revenu_locatif_avant", 0.8)
     revenu_locatif_annuel = loyer_mensuel * 12
     Total_revenu_avant = revenu_avant + revenu_loc_avant * pourcentage_revenu_locatif_avant
-    mensualite_pret_totale = st.session_state.get("mensualite_pret_totale", 0)  # Valeur par défaut
-    # Récupération du taux des frais de notaires, avec une valeur par défaut de 7%
-    taux_frais_notaires = st.session_state.get("taux_frais_notaires", 8)  # Valeur par défaut : 8%
 
-    # Calcul des frais de notaires en fonction du taux
-    frais_notaires = (taux_frais_notaires / 100) * prix_achat
-    cout_total_bien = prix_achat + frais_notaires  # Le coût total du bien inclut maintenant les frais de notaires
-
-    # Rentabilité brute et nette
+    # Calcul de rentabilité
     rentabilite_brute = (revenu_locatif_annuel / prix_achat) * 100
-    rentabilite_nette = ((revenu_locatif_annuel - st.session_state.get("frais_annuels_total", 0)) / cout_total_bien) * 100
+    frais_annuels_total = st.session_state.get("frais_annuels_total", 0)
+    cout_total_bien = prix_achat + (st.session_state.get("taux_frais_notaires", 8) / 100) * prix_achat
+    rentabilite_nette = ((revenu_locatif_annuel - frais_annuels_total) / cout_total_bien) * 100
+
+    # Calcul des mensualités
     mensualite_totale = st.session_state.get("mensualite_totale", 0)
-    cout_total_credit = st.session_state.get("cout_total_credit", 0)
+    mensualite_pret_seule = st.session_state.get("mensualite_pret_totale", 0)  # Mensualité du prêt uniquement
 
     # Calcul du taux d'endettement final
     charge_avant = st.session_state.get("charge_avant", 0)
     mensualite_avant = st.session_state.get("mensualite_avant", 0)
-    revenu_locatif_avant = st.session_state.get("revenu_loc_avant", 0)
-    taux_endettement_final = (mensualite_totale + mensualite_avant) / (revenu_avant + revenu_locatif_avant + (loyer_mensuel * 0.8) - charge_avant - st.session_state.get("frais_annuels_total", 0) / 12) * 100
+    taux_endettement_final = ((mensualite_totale + mensualite_avant) / (revenu_avant + revenu_locatif_annuel * 0.8 - charge_avant)) * 100
 
     # Calcul du cashflow mensuel
-    frais_annuels_total = st.session_state.get("frais_annuels_total", 0)
-    cashflow_mensuel = loyer_mensuel - frais_annuels_total / 12 - mensualite_pret_totale
+    cashflow_mensuel = loyer_mensuel - frais_annuels_total / 12 - mensualite_pret_seule
 
-    # Organisation des résultats sur deux lignes
-    col1, col2 = st.columns([1, 1])  # Première ligne
+    # Affichage des résultats avec les mensualités séparées
+    col1, col2 = st.columns(2)
     col1.metric("Revenu après investissement (€)", f"{Total_revenu_avant + (loyer_mensuel * 0.8):,.2f}".replace(',', ' '))
     col2.metric("Rentabilité brute (%)", f"{rentabilite_brute:,.2f}".replace(',', ' '))
-    mensualite_apres = mensualite_totale
-    col3, col4 = st.columns([1, 1])  # Deuxième ligne
-    col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:,.2f}".replace(',', ' '))
-    col4.metric("Mensualité totale (€)", f"{mensualite_totale+mensualite_avant:,.2f}".replace(',', ' '))
-    
 
-    
+    col3, col4 = st.columns(2)
+    col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:,.2f}".replace(',', ' '))
+    col4.metric("Mensualité totale (€)", f"{mensualite_totale + mensualite_avant:,.2f}".replace(',', ' '))
+
+    col5, col6 = st.columns(2)
+    col5.metric("Cashflow mensuel (€) - nouveau bien", f"{cashflow_mensuel:,.2f}".replace(',', ' '))
+    col6.metric("Mensualité liée au prêt uniquement (€)", f"{mensualite_pret_seule:,.2f}".replace(',', ' '))
 
     st.subheader(f"Taux d'endettement final (%) : {taux_endettement_final:,.2f}")
     st.write("---")  # Ligne de séparation pour mieux structurer la page
-    col5, col6 = st.columns([1, 1])  # Troisième ligne (pour cashflow et mensualités du nouveau prêt)
-    col5.metric("Cashflow mensuel (€) - nouveau bien", f"{cashflow_mensuel:,.2f}".replace(',', ' '))
-    col6.metric("Mensualité (prêt + assurance)  - nouveau prêt (€)", f"{mensualite_apres:,.2f}".replace(',', ' '))
     
-    st.write("---")  # Ligne de séparation pour mieux structurer la page
 # ---- Formulaire d'Entrées : Situation personnelle ----
 with st.container():
     st.markdown("### Situation personnelle")
