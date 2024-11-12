@@ -44,7 +44,7 @@ with st.container():
     col1, col2 = st.columns([1, 1])  # Première ligne
     col1.metric("Revenu après investissement (€)", f"{Total_revenu_avant + (loyer_mensuel * 0.8):,.2f}".replace(',', ' '))
     col2.metric("Rentabilité brute (%)", f"{rentabilite_brute:,.2f}".replace(',', ' '))
-
+    mensualite_apres = mensualite_totale
     col3, col4 = st.columns([1, 1])  # Deuxième ligne
     col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:,.2f}".replace(',', ' '))
     col4.metric("Mensualité totale (€)", f"{mensualite_totale+mensualite_avant:,.2f}".replace(',', ' '))
@@ -56,7 +56,7 @@ with st.container():
     st.write("---")  # Ligne de séparation pour mieux structurer la page
     col5, col6 = st.columns([1, 1])  # Troisième ligne (pour cashflow et mensualités du nouveau prêt)
     col5.metric("Cashflow mensuel (€) - nouveau bien", f"{cashflow_mensuel:,.2f}".replace(',', ' '))
-    col6.metric("Mensualité (prêt + assurance)  - nouveau prêt (€)", f"{mensualite_totale:,.2f}".replace(',', ' '))
+    col6.metric("Mensualité (prêt + assurance)  - nouveau prêt (€)", f"{mensualite_apres:,.2f}".replace(',', ' '))
     
     st.write("---")  # Ligne de séparation pour mieux structurer la page
 # ---- Formulaire d'Entrées : Situation personnelle ----
