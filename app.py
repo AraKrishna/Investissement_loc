@@ -60,20 +60,22 @@ with st.container():
 
     with col1:
         prix_achat = st.number_input("Prix du bien (€) - Frais d'agence compris", min_value=0, max_value=4000000, value=100000, step=1000, key="prix_achat")
+        travaux = st.number_input("Travaux (facultatif) (€)", min_value=0, max_value=200000, value=0, step=1000)
         taux_frais_notaires = st.slider("Taux des frais de notaires (%)", 1, 15, 8, key="taux_frais_notaires")  # Taux des frais de notaires (par défaut 8%)
+        st.write(f"Frais de notaires estimés (taux {taux_frais_notaires} %): {frais_notaires:,.2f} €")
         loyer_mensuel = st.number_input("Revenu locatif mensuel (€)", min_value=0, max_value=5000, value=500, step=10, key="loyer_mensuel")
         charges_copropriete = st.number_input("Charges de copropriété (mensuel) (€)", min_value=0, max_value=1000, value=200, step=5)
         taxe_fonciere = st.number_input("Taxe foncière (annuel) (€)", min_value=0, max_value=5000, value=200, step=10)
-        pourcentage_revenu_locatif = st.slider("Pourcentage du revenu locatif pris en compte par la banque (%)", 50, 100, 80)
-        duree_pret = st.slider("Durée du prêt (années)", 1, 30, 20)
+        
         
     with col2:
-        travaux = st.number_input("Travaux (facultatif) (€)", min_value=0, max_value=200000, value=0, step=1000)
+        apport = st.number_input("Apport personnel (€)", min_value=0, max_value=4000000, value=0, step=5000)
+        montant_pret = st.number_input("Montant du prêt (€)", min_value=0, max_value=4000000, value=prix_achat, step=5000)
         interet_annuel = st.number_input("Taux d'intérêt du prêt (%)", min_value=0.0, max_value=10.0, value=3.5, step=0.1)
         taux_assurance = st.number_input("Taux d'assurance (%)", min_value=0.0, max_value=4.0, value=0.3, step=0.1)
-        montant_pret = st.number_input("Montant du prêt (€)", min_value=0, max_value=4000000, value=prix_achat, step=5000)
-        apport = st.number_input("Apport personnel (€)", min_value=0, max_value=4000000, value=0, step=5000)
-
+        duree_pret = st.slider("Durée du prêt (années)", 1, 30, 20)
+        pourcentage_revenu_locatif = st.slider("Pourcentage du revenu locatif pris en compte par la banque (%)", 50, 100, 80)
+        
 # ---- Calculs et mise à jour des valeurs dans session_state ----
 # Calcul des frais annuels, mensualités, et frais de notaires
 frais_annuels_total = (charges_copropriete * 12) + taxe_fonciere
@@ -93,4 +95,4 @@ st.session_state["frais_notaires"] = frais_notaires  # Mise à jour des frais de
 st.session_state["cout_total_bien"] = cout_total_bien  # Mise à jour du coût total du bien
 
 # ---- Affichage des frais de notaires ----
-st.write(f"Frais de notaires estimés (taux {taux_frais_notaires}%): {frais_notaires:,.2f} €")
+
