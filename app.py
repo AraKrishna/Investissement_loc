@@ -1,7 +1,7 @@
 import streamlit as st
 
 # ---- Section Résultats en haut ----
-st.title("Simulation de Rentabilité Locative")
+st.title("Simulateur de Rentabilité Locative")
 st.subheader("Résultats de la Simulation")
 
 # Conteneur pour afficher les résultats en haut avec une structure plus lisible
