@@ -93,4 +93,3 @@ st.session_state["frais_annuels_total"] = frais_annuels_total
 st.session_state["mensualite_totale"] = mensualite_pret_totale + mensualite_avant 
 st.session_state["cout_total_credit"] = cout_total_credit
 st.session_state["frais_notaires"] = frais_notaires  # Mise à jour des frais de notaires
-st
