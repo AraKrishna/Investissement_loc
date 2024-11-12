@@ -10,6 +10,8 @@ with st.container():
     revenu_avant = st.session_state.get("revenu_avant", 3350)  # Valeur par défaut
     loyer_mensuel = st.session_state.get("loyer_mensuel", 800)  # Valeur par défaut
     prix_achat = st.session_state.get("prix_achat", 200000)  # Valeur par défaut
+    apport = st.session_state.get("apport", 200000)  # Valeur par défaut
+    frais_notaires = st.session_state.get("frais_notaires", 200000)  # Valeur par défaut
     revenu_loc_avant = st.session_state.get("revenu_loc_avant", 0)  # Valeur par défaut
     pourcentage_revenu_locatif_avant = st.session_state.get("pourcentage_revenu_locatif_avant", 0.8)
     revenu_locatif_annuel = loyer_mensuel * 12
@@ -20,7 +22,7 @@ with st.container():
 
     # Calcul des frais de notaires en fonction du taux
     frais_notaires = (taux_frais_notaires / 100) * prix_achat
-    cout_total_bien = prix_achat + frais_notaires  # Le coût total du bien inclut maintenant les frais de notaires
+    cout_total_bien = prix_achat + frais_notaires + apport  # Le coût total du bien inclut maintenant les frais de notaires
 
     # Rentabilité brute et nette
     rentabilite_brute = (revenu_locatif_annuel / prix_achat) * 100
