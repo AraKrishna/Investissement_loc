@@ -32,7 +32,7 @@ with st.container():
     charge_avant = st.session_state.get("charge_avant", 0)
     mensualite_avant = st.session_state.get("mensualite_avant", 0)
     revenu_locatif_avant = st.session_state.get("revenu_loc_avant", 0)
-    taux_endettement_final = (mensualite_totale + mensualite_avant) / (revenu_avant + revenu_locatif_avant - charge_avant) * 100
+    taux_endettement_final = (mensualite_totale + mensualite_avant) / (revenu_avant + revenu_locatif_avant + (loyer_mensuel * 0.8) - charge_avant-st.session_state.get("frais_annuels_total", 0)/12) * 100
 
     # Organisation des résultats sur deux lignes
     col1, col2 = st.columns([1, 1])  # Première ligne
