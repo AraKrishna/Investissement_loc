@@ -22,7 +22,7 @@ with st.container():
 
     # Calcul des frais de notaires et coût total du bien
     frais_notaires = (taux_frais_notaires / 100) * prix_achat
-    cout_total_bien = prix_achat + frais_notaires  # Le coût total du bien inclut les frais de notaires
+    cout_total_bien = prix_achat + frais_notaires + travaux  # Le coût total du bien inclut les frais de notaires
 
     # Rentabilité brute et nette
     rentabilite_brute = (revenu_locatif_annuel) / (cout_total_bien) * 100
