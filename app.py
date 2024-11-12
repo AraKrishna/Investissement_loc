@@ -51,6 +51,8 @@ with st.container():
         charges_copropriete = st.number_input("Charges de copropriété (mensuel) (€)", min_value=0, max_value=1000, value=50, step=10)
         taxe_fonciere = st.number_input("Taxe foncière (annuel) (€)", min_value=0, max_value=5000, value=500, step=50)
         pourcentage_revenu_locatif = st.slider("Pourcentage du revenu locatif pris en compte par la banque (%)", 50, 100, 80)
+        duree_pret = st.slider("Durée du prêt (années)", 1, 30, 20)
+        taux_assurance = st.number_input("Taux d'assurance (%)", min_value=0.0, max_value=1.0, value=0.3, step=0.1)
 
     with col2:
         travaux = st.number_input("Travaux (facultatif) (€)", min_value=0, max_value=50000, value=0, step=1000)
@@ -58,8 +60,7 @@ with st.container():
         montant_pret = st.number_input("Montant du prêt (€)", min_value=0, max_value=prix_achat, value=100000, step=5000)
         apport = st.number_input("Apport personnel (€)", min_value=0, max_value=prix_achat, value=20000, step=5000)
 
-    duree_pret = st.slider("Durée du prêt (années)", 1, 30, 20)
-    taux_assurance = st.number_input("Taux d'assurance (%)", min_value=0.0, max_value=1.0, value=0.3, step=0.1)
+    
 
 # ---- Calculs et mise à jour des valeurs dans session_state ----
 # Calcul des frais annuels et mensualités
