@@ -67,7 +67,8 @@ with st.container():
 # ---- Calculs et mise à jour des valeurs dans session_state ----
 # Calcul des frais annuels et mensualités
 frais_annuels_total = (charges_copropriete * 12) + taxe_fonciere
-taux_mensuel = interet_annuel / 100 / 12
+interet_compose = interet_annuel+taux_assurance 
+taux_mensuel = interet_compose / 100 / 12
 mensualite_pret = montant_pret * taux_mensuel / (1 - (1 + taux_mensuel) ** (-duree_pret * 12))
 assurance_mensuelle = (montant_pret * (taux_assurance / 100)) / 12
 mensualite_totale = mensualite_pret + assurance_mensuelle
