@@ -28,14 +28,25 @@ with st.container():
     mensualite_totale = st.session_state.get("mensualite_totale", 0)
     cout_total_credit = st.session_state.get("cout_total_credit", 0)
 
-    # Organisation des résultats principaux sur une ligne, avec des colonnes larges pour les lire d'un coup d'œil
-    col1, col2, col3, col4 = st.columns([1, 1, 1, 1])  # Ajustement des largeurs pour plus de lisibilité
+    # Calcul du taux d'endettement final
+    charge_avant = st.session_state.get("charge_avant", 0)
+    mensualite_avant = st.session_state.get("mensualite_avant", 0)
+    revenu_locatif_avant = st.session_state.get("revenu_loc_avant", 0)
+    taux_endettement_final = (mensualite_totale + mensualite_avant) / (revenu_avant + revenu_locatif_avant - charge_avant) * 100
+
+    # Organisation des résultats sur deux lignes
+    col1, col2 = st.columns([1, 1])  # Première ligne
     col1.metric("Revenu après investissement (€)", f"{Total_revenu_avant + (loyer_mensuel * 0.8):,.2f}".replace(',', ' '))
     col2.metric("Rentabilité brute (%)", f"{rentabilite_brute:,.2f}".replace(',', ' '))
+
+    col3, col4 = st.columns([1, 1])  # Deuxième ligne
     col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:,.2f}".replace(',', ' '))
     col4.metric("Mensualité (prêt + assurance) (€)", f"{mensualite_totale:,.2f}".replace(',', ' '))
 
     st.write("---")  # Ligne de séparation pour mieux structurer la page
+
+    # Affichage du taux d'endettement final sur une nouvelle ligne
+    st.subheader(f"Taux d'endettement final (%) : {taux_endettement_final:,.2f}")
 
 # ---- Formulaire d'Entrées : Situation personnelle ----
 with st.container():
@@ -92,4 +103,4 @@ cout_total_credit = mensualite_pret_totale * duree_pret * 12
 st.session_state["frais_annuels_total"] = frais_annuels_total
 st.session_state["mensualite_totale"] = mensualite_pret_totale + mensualite_avant 
 st.session_state["cout_total_credit"] = cout_total_credit
-st.session_state["frais_notaires"] = frais_notaires  # Mise à jour des frais de notaires
+st.session_state["frais_notaires"] = frais_notaires  # Mise à jour des frais de notaires 
