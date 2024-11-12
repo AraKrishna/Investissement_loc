@@ -13,7 +13,7 @@ with st.container():
     revenu_loc_avant = st.session_state.get("revenu_loc_avant", 0)  # Valeur par défaut
     pourcentage_revenu_locatif_avant=st.session_state.get("pourcentage_revenu_locatif_avant", 0.8)
     revenu_locatif_annuel = loyer_mensuel * 12
-    Total_revenu_avant = revenu_avant+revenu_loc_avant*pourcentage_revenu_locatif_avant/100
+    Total_revenu_avant = revenu_avant+revenu_loc_avant*pourcentage_revenu_locatif_avant*100
     
     rentabilite_brute = (revenu_locatif_annuel / prix_achat) * 100
     rentabilite_nette = ((revenu_locatif_annuel - st.session_state.get("frais_annuels_total", 0)) / prix_achat) * 100
