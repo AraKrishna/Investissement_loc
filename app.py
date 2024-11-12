@@ -60,7 +60,7 @@ with st.container():
         travaux = st.number_input("Travaux (facultatif) (€)", min_value=0, max_value=200000, value=0, step=1000)
         interet_annuel = st.number_input("Taux d'intérêt du prêt (%)", min_value=0.0, max_value=10.0, value=3.5, step=0.1)
         montant_pret = st.number_input("Montant du prêt (€)", min_value=0, max_value=4000000, value=prix_achat, step=5000)
-        apport = st.number_input("Apport personnel (€)", min_value=0, max_value=4000000, value=fdn, step=5000)
+        apport = st.number_input("Apport personnel (€)", min_value=0, max_value=4000000, value=0, step=5000)
 
     
 
