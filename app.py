@@ -1,110 +1,79 @@
 import streamlit as st
 
+# ---- Fonctions utilitaires ----
+def calcul_frais_notaires(prix_achat, taux_frais_notaires):
+    return (taux_frais_notaires / 100) * prix_achat
+
+def calcul_mensualite_pret(montant_pret, interet_annuel, duree_pret, taux_assurance):
+    taux_mensuel = interet_annuel / 100 / 12
+    mensualite_pret = montant_pret * taux_mensuel / (1 - (1 + taux_mensuel) ** (-duree_pret * 12))
+    assurance_mensuelle = (montant_pret * (taux_assurance / 100)) / 12
+    return mensualite_pret + assurance_mensuelle
+
+def calcul_rentabilite_brute(loyer_mensuel, prix_achat):
+    revenu_locatif_annuel = loyer_mensuel * 12
+    return (revenu_locatif_annuel / prix_achat) * 100
+
+def calcul_rentabilite_nette(loyer_mensuel, frais_annuels_total, cout_total_bien):
+    revenu_locatif_annuel = loyer_mensuel * 12
+    return ((revenu_locatif_annuel - frais_annuels_total) / cout_total_bien) * 100
+
 # ---- Section Résultats en haut ----
 st.title("Simulateur de Rentabilité Locative")
 st.subheader("Résultats de la Simulation")
 
-# Conteneur pour afficher les résultats en haut avec une structure plus lisible
+# Données d'entrée (avec valeurs par défaut)
+prix_achat = st.session_state.get("prix_achat", 200000)
+taux_frais_notaires = st.session_state.get("taux_frais_notaires", 8)
+loyer_mensuel = st.session_state.get("loyer_mensuel", 800)
+revenu_avant = st.session_state.get("revenu_avant", 3350)
+revenu_loc_avant = st.session_state.get("revenu_loc_avant", 0)
+mensualite_avant = st.session_state.get("mensualite_avant", 0)
+charge_avant = st.session_state.get("charge_avant", 0)
+
+# Calculs
+frais_notaires = calcul_frais_notaires(prix_achat, taux_frais_notaires)
+cout_total_bien = prix_achat + frais_notaires
+frais_annuels_total = st.session_state.get("frais_annuels_total", 0)
+mensualite_pret_totale = calcul_mensualite_pret(prix_achat, 3.5, 20, 0.3)
+rentabilite_brute = calcul_rentabilite_brute(loyer_mensuel, prix_achat)
+rentabilite_nette = calcul_rentabilite_nette(loyer_mensuel, frais_annuels_total, cout_total_bien)
+
+# Affichage des résultats
 with st.container():
-    # Calculs préliminaires
-    revenu_avant = st.session_state.get("revenu_avant", 3350)  # Valeur par défaut
-    loyer_mensuel = st.session_state.get("loyer_mensuel", 800)  # Valeur par défaut
-    prix_achat = st.session_state.get("prix_achat", 200000)  # Valeur par défaut
-    apport = st.session_state.get("apport", 200000)  # Valeur par défaut
-    revenu_loc_avant = st.session_state.get("revenu_loc_avant", 0)  # Valeur par défaut
-    pourcentage_revenu_locatif_avant = st.session_state.get("pourcentage_revenu_locatif_avant", 0.8)
-    revenu_locatif_annuel = loyer_mensuel * 12
-    Total_revenu_avant = revenu_avant + revenu_loc_avant * pourcentage_revenu_locatif_avant
-
-    # Calcul de rentabilité
-    rentabilite_brute = (revenu_locatif_annuel / prix_achat) * 100
-    frais_annuels_total = st.session_state.get("frais_annuels_total", 0)
-    cout_total_bien = prix_achat + (st.session_state.get("taux_frais_notaires", 8) / 100) * prix_achat
-    rentabilite_nette = ((revenu_locatif_annuel - frais_annuels_total) / cout_total_bien) * 100
-
-    # Calcul des mensualités
-    mensualite_totale = st.session_state.get("mensualite_totale", 0)
-    mensualite_pret_seule = st.session_state.get("mensualite_pret_totale", 0)  # Mensualité du prêt uniquement
-
-    # Calcul du taux d'endettement final
-    charge_avant = st.session_state.get("charge_avant", 0)
-    mensualite_avant = st.session_state.get("mensualite_avant", 0)
-    taux_endettement_final = ((mensualite_totale + mensualite_avant) / (revenu_avant + revenu_locatif_annuel * 0.8 - charge_avant)) * 100
-
-    # Calcul du cashflow mensuel
-    cashflow_mensuel = loyer_mensuel - frais_annuels_total / 12 - mensualite_pret_seule
-
-    # Affichage des résultats avec les mensualités séparées
     col1, col2 = st.columns(2)
-    col1.metric("Revenu après investissement (€)", f"{Total_revenu_avant + (loyer_mensuel * 0.8):,.2f}".replace(',', ' '))
-    col2.metric("Rentabilité brute (%)", f"{rentabilite_brute:,.2f}".replace(',', ' '))
-
-    col3, col4 = st.columns(2)
-    col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:,.2f}".replace(',', ' '))
-    col4.metric("Mensualité totale (€)", f"{mensualite_totale + mensualite_avant:,.2f}".replace(',', ' '))
-
-    col5, col6 = st.columns(2)
-    col5.metric("Cashflow mensuel (€) - nouveau bien", f"{cashflow_mensuel:,.2f}".replace(',', ' '))
-    col6.metric("Mensualité liée au prêt uniquement (€)", f"{mensualite_pret_seule:,.2f}".replace(',', ' '))
-
-    st.subheader(f"Taux d'endettement final (%) : {taux_endettement_final:,.2f}")
-    st.write("---")  # Ligne de séparation pour mieux structurer la page
+    col1.metric("Revenu après investissement (€)", f"{revenu_avant + (loyer_mensuel * 0.8):,.2f}")
+    col2.metric("Rentabilité brute (%)", f"{rentabilite_brute:,.2f}")
     
-# ---- Formulaire d'Entrées : Situation personnelle ----
+    col3, col4 = st.columns(2)
+    col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:,.2f}")
+    col4.metric("Mensualité totale (€)", f"{mensualite_pret_totale + mensualite_avant:,.2f}")
+
+# ---- Formulaires d'Entrée ----
 with st.container():
     st.markdown("### Situation personnelle")
     col1, col2 = st.columns(2)
-    
     with col1:
-        revenu_avant = st.number_input("Revenu avant investissement (€)", min_value=1000, max_value=20000, value=3350, step=10, key="revenu_avant")
-        revenu_loc_avant = st.number_input("Revenu locatif avant investissement (€)", min_value=0, max_value=20000, value=0, step=10, key="revenu_loc_avant")
-        pourcentage_revenu_locatif_avant = st.slider("Pourcentage du revenu locatif pris en compte par la banque (%) - Avant investissement", 50, 100, 80)
-        charge_avant = st.number_input("Charges avant investissement (€)", min_value=0, max_value=20000, value=0, step=10)
-        mensualite_avant = st.number_input("Mensualité avant investissement (€)", min_value=0, max_value=20000, value=0, step=10)
-    
+        revenu_avant = st.number_input("Revenu avant investissement (€)", value=revenu_avant, step=10)
+        revenu_loc_avant = st.number_input("Revenu locatif avant investissement (€)", value=revenu_loc_avant, step=10)
+        charge_avant = st.number_input("Charges avant investissement (€)", value=charge_avant, step=10)
+        mensualite_avant = st.number_input("Mensualité avant investissement (€)", value=mensualite_avant, step=10)
     with col2:
-        col2.metric("Taux d'endettement actuel (%)", f"{mensualite_avant/(revenu_avant - charge_avant)*100:,.2f}".replace(',', ' '))
+        taux_endettement_actuel = (mensualite_avant / (revenu_avant - charge_avant)) * 100
+        col2.metric("Taux d'endettement actuel (%)", f"{taux_endettement_actuel:.2f}")
 
-# ---- Formulaire d'Entrées : Bien locatif ----
-with st.container():
     st.markdown("### Bien locatif")
     col1, col2 = st.columns(2)
-
     with col1:
-        prix_achat = st.number_input("Prix du bien (€) - Frais d'agence compris", min_value=0, max_value=4000000, value=100000, step=1000, key="prix_achat")
-        travaux = st.number_input("Travaux (facultatif) (€)", min_value=0, max_value=200000, value=0, step=1000)
-        taux_frais_notaires = st.slider("Taux des frais de notaires (%)", 1, 15, 8, key="taux_frais_notaires")  # Taux des frais de notaires (par défaut 8%)
-        loyer_mensuel = st.number_input("Revenu locatif mensuel (€)", min_value=0, max_value=5000, value=500, step=10, key="loyer_mensuel")
-        charges_copropriete = st.number_input("Charges de copropriété (mensuel) (€)", min_value=0, max_value=1000, value=200, step=5)
-        taxe_fonciere = st.number_input("Taxe foncière (annuel) (€)", min_value=0, max_value=5000, value=200, step=10)
-        
+        prix_achat = st.number_input("Prix du bien (€)", value=prix_achat, step=1000)
+        taux_frais_notaires = st.slider("Taux des frais de notaires (%)", 1, 15, value=taux_frais_notaires)
+        loyer_mensuel = st.number_input("Revenu locatif mensuel (€)", value=loyer_mensuel, step=10)
     with col2:
-        apport = st.number_input("Apport personnel (€)", min_value=0, max_value=4000000, value=0, step=5000)
-        montant_pret = st.number_input("Montant du prêt (€)", min_value=0, max_value=4000000, value=prix_achat, step=5000)
-        interet_annuel = st.number_input("Taux d'intérêt du prêt (%)", min_value=0.0, max_value=10.0, value=3.5, step=0.1)
-        taux_assurance = st.number_input("Taux d'assurance (%)", min_value=0.0, max_value=4.0, value=0.3, step=0.1)
-        duree_pret = st.slider("Durée du prêt (années)", 1, 30, 20)
-        pourcentage_revenu_locatif = st.slider("Pourcentage du revenu locatif pris en compte par la banque (%)", 50, 100, 80)
+        apport = st.number_input("Apport personnel (€)", step=5000)
+        montant_pret = st.number_input("Montant du prêt (€)", value=prix_achat, step=5000)
+        st.metric("Frais de notaires (€)", f"{frais_notaires:,.2f}")
 
-    # Ajout de la métrique pour afficher les frais de notaires calculés
-    frais_notaires = (taux_frais_notaires / 100) * prix_achat  # Calcul des frais de notaires
-    st.metric("Frais de notaires (€)", f"{frais_notaires:,.2f}".replace(',', ' '))
-    
-# ---- Calculs et mise à jour des valeurs dans session_state ----
-# Calcul des frais annuels, mensualités, et frais
-frais_annuels_total = (charges_copropriete * 12) + taxe_fonciere
-frais_notaires = (taux_frais_notaires / 100) * prix_achat  # Calcul des frais de notaires avec le taux personnalisé
-cout_total_bien = prix_achat + frais_notaires  # Le coût total du bien inclut maintenant les frais de notaires
-taux_mensuel = interet_annuel / 100 / 12
-mensualite_pret = montant_pret * taux_mensuel / (1 - (1 + taux_mensuel) ** (-duree_pret * 12))
-assurance_mensuelle = (montant_pret * (taux_assurance / 100)) / 12
-mensualite_pret_totale = mensualite_pret + assurance_mensuelle
-cashflow_mensuel = loyer_mensuel - frais_annuels_total / 12
-
-cout_total_credit = mensualite_pret_totale * duree_pret * 12
-
-# Mise à jour des résultats calculés dans session_state pour les afficher en haut
+# ---- Calculs finaux et mise à jour session_state ----
 st.session_state["frais_annuels_total"] = frais_annuels_total
 st.session_state["mensualite_totale"] = mensualite_pret_totale + mensualite_avant
-st.session_state["cout_total_credit"] = cout_total_credit
-st.session_state["frais_notaires"] = frais_notaires  # Mise à jour des frais de notaires 
+st.session_state["frais_notaires"] = frais_notaires
