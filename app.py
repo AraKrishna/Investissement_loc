@@ -38,7 +38,7 @@ with st.container():
 
     # Calcul du cashflow mensuel
     frais_annuels_total = st.session_state.get("frais_annuels_total", 0)
-    cashflow_mensuel = loyer_mensuel - frais_annuels_total / 12 - mensualite_totale
+    cashflow_mensuel = loyer_mensuel - frais_annuels_total / 12 - mensualite_pret_totale
 
     # Organisation des résultats sur deux lignes
     col1, col2 = st.columns([1, 1])  # Première ligne
@@ -56,7 +56,7 @@ with st.container():
     st.write("---")  # Ligne de séparation pour mieux structurer la page
     col5, col6 = st.columns([1, 1])  # Troisième ligne (pour cashflow et mensualités du nouveau prêt)
     col5.metric("Cashflow mensuel (€) - nouveau bien", f"{cashflow_mensuel:,.2f}".replace(',', ' '))
-    col6.metric("Mensualité (prêt + assurance)  - nouveau prêt (€)", f"{mensualite_totale:,.2f}".replace(',', ' '))
+    col6.metric("Mensualité (prêt + assurance)  - nouveau prêt (€)", f"{mensualite_pret_totale:,.2f}".replace(',', ' '))
     
     st.write("---")  # Ligne de séparation pour mieux structurer la page
 # ---- Formulaire d'Entrées : Situation personnelle ----
