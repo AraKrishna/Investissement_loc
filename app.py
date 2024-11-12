@@ -43,10 +43,11 @@ with st.container():
     col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:,.2f}".replace(',', ' '))
     col4.metric("Mensualité (prêt + assurance) (€)", f"{mensualite_totale:,.2f}".replace(',', ' '))
 
+    st.subheader(f"Taux d'endettement final (%) : {taux_endettement_final:,.2f}")
     st.write("---")  # Ligne de séparation pour mieux structurer la page
 
     # Affichage du taux d'endettement final sur une nouvelle ligne
-    st.subheader(f"Taux d'endettement final (%) : {taux_endettement_final:,.2f}")
+    
 
 # ---- Formulaire d'Entrées : Situation personnelle ----
 with st.container():
