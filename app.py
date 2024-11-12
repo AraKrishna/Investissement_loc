@@ -34,7 +34,7 @@ with st.container():
     pourcentage_revenu_locatif = st.session_state.get("pourcentage_revenu_locatif", 80)
     taux_endettement_final = (
         (mensualite_pret_totale + AV_mensualite) /
-        (AV_revenu + AV_revenu_locatif * (AV_pourcentage_revenu_locatif / 100)+loyer_mensuel*pourcentage_revenu_locatif/100)
+        (AV_charges + AV_revenu + AV_revenu_locatif * (AV_pourcentage_revenu_locatif / 100)+loyer_mensuel*pourcentage_revenu_locatif/100)
     ) * 100
 
     # Calcul du cashflow mensuel
