@@ -4,8 +4,21 @@ import streamlit as st
 st.title("Simulateur de Rentabilité Locative")
 st.subheader("Résultats de la Simulation")
 
-# Conteneur pour afficher les résultats en haut avec une structure plus lisible
-with st.container():
+# Affichage des boutons de contrôle
+col1, col2 = st.columns([1, 1])
+with col1:
+    if st.button("Mettre à jour"):
+        st.session_state["mettre_a_jour"] = True  # Pour trigger les calculs et mises à jour
+with col2:
+    if st.button("Réinitialiser les paramètres"):
+        # Réinitialiser toutes les valeurs de session
+        st.session_state.clear()  # Cela réinitialise toutes les clés dans session_state
+
+# Vérifier si on doit mettre à jour
+if "mettre_a_jour" in st.session_state and st.session_state["mettre_a_jour"]:
+    # Réinitialisation de la clé de mise à jour pour éviter un recalcul répétitif
+    del st.session_state["mettre_a_jour"]
+    
     # Calculs préliminaires
     revenu_avant = st.session_state.get("revenu_avant", 3350)  # Valeur par défaut
     loyer_mensuel = st.session_state.get("loyer_mensuel", 800)  # Valeur par défaut
@@ -49,7 +62,6 @@ with st.container():
     st.write("---")  # Ligne de séparation pour mieux structurer la page
 
     # Affichage du taux d'endettement final sur une nouvelle ligne
-    
 
 # ---- Formulaire d'Entrées : Situation personnelle ----
 with st.container():
@@ -65,7 +77,6 @@ with st.container():
     
     with col2:
         col2.metric("Taux d'endettement actuel (%)", f"{mensualite_avant/(revenu_avant - charge_avant)*100:,.2f}".replace(',', ' '))
-        
 
 # ---- Formulaire d'Entrées : Bien locatif ----
 with st.container():
@@ -80,7 +91,6 @@ with st.container():
         charges_copropriete = st.number_input("Charges de copropriété (mensuel) (€)", min_value=0, max_value=1000, value=200, step=5)
         taxe_fonciere = st.number_input("Taxe foncière (annuel) (€)", min_value=0, max_value=5000, value=200, step=10)
         
-        
     with col2:
         apport = st.number_input("Apport personnel (€)", min_value=0, max_value=4000000, value=0, step=5000)
         montant_pret = st.number_input("Montant du prêt (€)", min_value=0, max_value=4000000, value=prix_achat, step=5000)
@@ -92,18 +102,4 @@ with st.container():
 # ---- Calculs et mise à jour des valeurs dans session_state ----
 # Calcul des frais annuels, mensualités, et frais de notaires
 frais_annuels_total = (charges_copropriete * 12) + taxe_fonciere
-frais_notaires = (taux_frais_notaires / 100) * prix_achat  # Calcul des frais de notaires avec le taux personnalisé
-cout_total_bien = prix_achat + frais_notaires  # Le coût total du bien inclut maintenant les frais de notaires
-taux_mensuel = interet_annuel / 100 / 12
-mensualite_pret = montant_pret * taux_mensuel / (1 - (1 + taux_mensuel) ** (-duree_pret * 12))
-assurance_mensuelle = (montant_pret * (taux_assurance / 100)) / 12
-mensualite_pret_totale = mensualite_pret + assurance_mensuelle
-cashflow_mensuel = loyer_mensuel - frais_annuels_total / 12
-
-cout_total_credit = mensualite_pret_totale * duree_pret * 12
-
-# Mise à jour des résultats calculés dans session_state pour les afficher en haut
-st.session_state["frais_annuels_total"] = frais_annuels_total
-st.session_state["mensualite_totale"] = mensualite_pret_totale + mensualite_avant 
-st.session_state["cout_total_credit"] = cout_total_credit
-st.session_state["frais_notaires"] = frais_notaires  # Mise à jour des frais de notaires 
+frais_notaires = (taux_frais_notaires / 100) * prix_achat  # Calcul
