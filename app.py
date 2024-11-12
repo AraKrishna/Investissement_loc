@@ -11,8 +11,9 @@ with st.container():
     loyer_mensuel = st.session_state.get("loyer_mensuel", 800)  # Valeur par défaut
     prix_achat = st.session_state.get("prix_achat", 200000)  # Valeur par défaut
     revenu_loc_avant = st.session_state.get("revenu_loc_avant", 0)  # Valeur par défaut
+    pourcentage_revenu_locatif_avant=st.session_state.get("pourcentage_revenu_locatif_avant", 0.8)
     revenu_locatif_annuel = loyer_mensuel * 12
-    Total_revenu_avant = revenu_avant+revenu_loc_avant
+    Total_revenu_avant = revenu_avant+revenu_loc_avant*pourcentage_revenu_locatif_avant/100
     
     rentabilite_brute = (revenu_locatif_annuel / prix_achat) * 100
     rentabilite_nette = ((revenu_locatif_annuel - st.session_state.get("frais_annuels_total", 0)) / prix_achat) * 100
@@ -36,6 +37,7 @@ with st.container():
     with col1:
         revenu_avant = st.number_input("Revenu avant investissement (€)", min_value=1000, max_value=20000, value=3350, step=10, key="revenu_avant")
         revenu_loc_avant = st.number_input("Revenu locatif avant investissement (€)", min_value=0, max_value=20000, value=0, step=10, key="revenu_loc_avant")
+        pourcentage_revenu_locatif_avant = st.slider("Pourcentage du revenu locatif pris en compte par la banque (%) - Avant investissement", 50, 100, 80)
         charge_avant = st.number_input("Charges avant investissement (€)", min_value=0, max_value=20000, value=0, step=10)
         mensualite_avant = st.number_input("Mensualité avant investissement (€)", min_value=0, max_value=20000, value=0, step=10)
     
