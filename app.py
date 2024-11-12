@@ -25,7 +25,7 @@ with st.container():
     # Rentabilité brute et nette
     rentabilite_brute = (revenu_locatif_annuel / prix_achat) * 100
     rentabilite_nette = ((revenu_locatif_annuel - st.session_state.get("frais_annuels_total", 0)) / cout_total_bien) * 100
-    mensualite_totale = st.session_state.get("mensualite_totale", 0)
+    mensualite_totale = st.session_state.get("mensualite_totale", 0)+st.session_state.get("mensualite_avant", 0)
     cout_total_credit = st.session_state.get("cout_total_credit", 0)
 
     # Organisation des résultats principaux sur une ligne, avec des colonnes larges pour les lire d'un coup d'œil
