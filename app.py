@@ -4,24 +4,27 @@ import streamlit as st
 st.title("Simulation de Rentabilité Locative")
 st.subheader("Résultats de la Simulation")
 
-# Conteneur pour afficher les résultats en haut
+# Conteneur pour afficher les résultats en haut avec une structure plus lisible
 with st.container():
+    # Calculs préliminaires
     revenu_avant = st.session_state.get("revenu_avant", 3350)  # Valeur par défaut
     loyer_mensuel = st.session_state.get("loyer_mensuel", 800)  # Valeur par défaut
-    
-    # Calculs préliminaires
+    prix_achat = st.session_state.get("prix_achat", 200000)  # Valeur par défaut
+
     revenu_locatif_annuel = loyer_mensuel * 12
-    rentabilite_brute = (revenu_locatif_annuel / st.session_state.get("prix_achat", 200000)) * 100
-    rentabilite_nette = ((revenu_locatif_annuel - st.session_state.get("frais_annuels_total", 0)) / st.session_state.get("prix_achat", 200000)) * 100
+    rentabilite_brute = (revenu_locatif_annuel / prix_achat) * 100
+    rentabilite_nette = ((revenu_locatif_annuel - st.session_state.get("frais_annuels_total", 0)) / prix_achat) * 100
     mensualite_totale = st.session_state.get("mensualite_totale", 0)
     cout_total_credit = st.session_state.get("cout_total_credit", 0)
 
-    # Affichage des résultats
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Revenu après investissement (€)", f"{revenu_avant + (loyer_mensuel * 0.8):.2f}")
-    col2.metric("Rentabilité brute (%)", f"{rentabilite_brute:.2f}")
-    col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:.2f}")
-    col4.metric("Mensualité (prêt + assurance) (€)", f"{mensualite_totale:.2f}")
+    # Organisation des résultats principaux sur une ligne, avec des colonnes larges pour les lire d'un coup d'œil
+    col1, col2, col3, col4 = st.columns([1, 1, 1, 1])  # Ajustement des largeurs pour plus de lisibilité
+    col1.metric("Revenu après investissement (€)", f"{revenu_avant + (loyer_mensuel * 0.8):,.2f}".replace(',', ' '))
+    col2.metric("Rentabilité brute (%)", f"{rentabilite_brute:,.2f}".replace(',', ' '))
+    col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:,.2f}".replace(',', ' '))
+    col4.metric("Mensualité (prêt + assurance) (€)", f"{mensualite_totale:,.2f}".replace(',', ' '))
+
+    st.write("---")  # Ligne de séparation pour mieux structurer la page
 
 # ---- Formulaire d'Entrées : Situation personnelle ----
 with st.container():
