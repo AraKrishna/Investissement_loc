@@ -43,7 +43,7 @@ with st.container():
 
     # Organisation des résultats sur deux lignes
     col1, col2 = st.columns([1, 1])  # Première ligne
-    col1.metric("Revenu après investissement (€)", f"{AV_total_revenu + (loyer_mensuel):,.2f}".replace(',', ' '))
+    col1.metric("Revenu après investissement (€)", f"{AV_total_revenu + (loyer_mensuel)-frais_annuels_total/12:,.2f}".replace(',', ' '))
     col2.metric("Rentabilité brute (%)", f"{rentabilite_brute:,.2f}".replace(',', ' '))
 
     col3, col4 = st.columns([1, 1])  # Deuxième ligne
