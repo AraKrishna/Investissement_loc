@@ -16,7 +16,7 @@ with st.container():
     pourcentage_revenu_locatif_avant = st.session_state.get("pourcentage_revenu_locatif_avant", 0.8)
     revenu_locatif_annuel = loyer_mensuel * 12
     Total_revenu_avant = revenu_avant + revenu_loc_avant * pourcentage_revenu_locatif_avant
-
+    mensualite_pret_totale = st.session_state.get("mensualite_pret_totale", 0)  # Valeur par défaut
     # Récupération du taux des frais de notaires, avec une valeur par défaut de 7%
     taux_frais_notaires = st.session_state.get("taux_frais_notaires", 8)  # Valeur par défaut : 8%
 
