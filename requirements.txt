@@ -1,4 +1,1 @@
-streamlit
-streamlit-stylable
-pandas
-numpy
+
