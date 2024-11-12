@@ -46,19 +46,21 @@ with st.container():
     col1, col2 = st.columns(2)
 
     with col1:
-        prix_achat = st.number_input("Prix du bien (€)", min_value=50000, max_value=1000000, value=200000, step=5000, key="prix_achat")
-        loyer_mensuel = st.number_input("Revenu locatif mensuel (€)", min_value=200, max_value=5000, value=800, step=50, key="loyer_mensuel")
-        charges_copropriete = st.number_input("Charges de copropriété (mensuel) (€)", min_value=0, max_value=1000, value=50, step=10)
-        taxe_fonciere = st.number_input("Taxe foncière (annuel) (€)", min_value=0, max_value=5000, value=500, step=50)
+        prix_achat = st.number_input("Prix du bien (€) - Frais d'agence compris", min_value=0, max_value=4000000, value=100000, step=1000, key="prix_achat")
+        frais_de_notaires = st.number_input("Frais de notaires (€)", min_value=0.0, max_value=4000000, value=8%*prix_achat, step=100)
+        loyer_mensuel = st.number_input("Revenu locatif mensuel (€)", min_value=0, max_value=5000, value=500, step=10, key="loyer_mensuel")
+        charges_copropriete = st.number_input("Charges de copropriété (mensuel) (€)", min_value=0, max_value=1000, value=200, step=5)
+        taxe_fonciere = st.number_input("Taxe foncière (annuel) (€)", min_value=0, max_value=5000, value=200, step=10)
         pourcentage_revenu_locatif = st.slider("Pourcentage du revenu locatif pris en compte par la banque (%)", 50, 100, 80)
         duree_pret = st.slider("Durée du prêt (années)", 1, 30, 20)
-        taux_assurance = st.number_input("Taux d'assurance (%)", min_value=0.0, max_value=1.0, value=0.3, step=0.1)
+        taux_assurance = st.number_input("Taux d'assurance (%)", min_value=0.0, max_value=4.0, value=0.3, step=0.1)
+    
 
     with col2:
-        travaux = st.number_input("Travaux (facultatif) (€)", min_value=0, max_value=50000, value=0, step=1000)
-        interet_annuel = st.number_input("Taux d'intérêt du prêt (%)", min_value=0.0, max_value=10.0, value=1.5, step=0.1)
-        montant_pret = st.number_input("Montant du prêt (€)", min_value=0, max_value=prix_achat, value=100000, step=5000)
-        apport = st.number_input("Apport personnel (€)", min_value=0, max_value=prix_achat, value=20000, step=5000)
+        travaux = st.number_input("Travaux (facultatif) (€)", min_value=0, max_value=200000, value=0, step=1000)
+        interet_annuel = st.number_input("Taux d'intérêt du prêt (%)", min_value=0.0, max_value=10.0, value=3.5, step=0.1)
+        montant_pret = st.number_input("Montant du prêt (€)", min_value=0, max_value=4000000, value=prix_achat, step=5000)
+        apport = st.number_input("Apport personnel (€)", min_value=0, max_value=4000000, value=8%*prix_achat, step=5000)
 
     
 
