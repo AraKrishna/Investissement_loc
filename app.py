@@ -38,7 +38,7 @@ with st.container():
 
     # Calcul du cashflow mensuel
     frais_annuels_total = st.session_state.get("frais_annuels_total", 0)
-    cashflow_mensuel = loyer_mensuel - frais_annuels_total / 12
+    cashflow_mensuel = loyer_mensuel - frais_annuels_total / 12 - mensualite_totale
 
     # Organisation des résultats sur deux lignes
     col1, col2 = st.columns([1, 1])  # Première ligne
