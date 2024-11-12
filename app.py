@@ -10,8 +10,10 @@ with st.container():
     revenu_avant = st.session_state.get("revenu_avant", 3350)  # Valeur par défaut
     loyer_mensuel = st.session_state.get("loyer_mensuel", 800)  # Valeur par défaut
     prix_achat = st.session_state.get("prix_achat", 200000)  # Valeur par défaut
-
+    revenu_loc_avant = st.session_state.get("revenu_loc_avant", 0)  # Valeur par défaut
     revenu_locatif_annuel = loyer_mensuel * 12
+    Total_revenu_avant = revenu_avant+revenu_locatif_annuel
+    
     rentabilite_brute = (revenu_locatif_annuel / prix_achat) * 100
     rentabilite_nette = ((revenu_locatif_annuel - st.session_state.get("frais_annuels_total", 0)) / prix_achat) * 100
     mensualite_totale = st.session_state.get("mensualite_totale", 0)
@@ -19,7 +21,7 @@ with st.container():
 
     # Organisation des résultats principaux sur une ligne, avec des colonnes larges pour les lire d'un coup d'œil
     col1, col2, col3, col4 = st.columns([1, 1, 1, 1])  # Ajustement des largeurs pour plus de lisibilité
-    col1.metric("Revenu après investissement (€)", f"{revenu_avant + (loyer_mensuel * 0.8):,.2f}".replace(',', ' '))
+    col1.metric("Revenu après investissement (€)", f"{Total_revenu_avant + (loyer_mensuel * 0.8):,.2f}".replace(',', ' '))
     col2.metric("Rentabilité brute (%)", f"{rentabilite_brute:,.2f}".replace(',', ' '))
     col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:,.2f}".replace(',', ' '))
     col4.metric("Mensualité (prêt + assurance) (€)", f"{mensualite_totale:,.2f}".replace(',', ' '))
@@ -33,6 +35,7 @@ with st.container():
     
     with col1:
         revenu_avant = st.number_input("Revenu avant investissement (€)", min_value=1000, max_value=20000, value=3350, step=10, key="revenu_avant")
+        revenu_loc_avant = st.number_input("Revenu locatif avant investissement (€)", min_value=0, max_value=20000, value=0, step=10, key="revenu_loc_avant")
         charge_avant = st.number_input("Charges avant investissement (€)", min_value=0, max_value=20000, value=0, step=10)
         mensualite_avant = st.number_input("Mensualité avant investissement (€)", min_value=0, max_value=20000, value=0, step=10)
     
