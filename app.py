@@ -43,15 +43,17 @@ with st.container():
     # Calcul du cashflow mensuel
     frais_annuels_total = st.session_state.get("frais_annuels_total", 0)
     cashflow_mensuel = loyer_mensuel - (frais_annuels_total / 12) - mensualite_pret_totale
-    frais_mensuels = frais_annuels_total/12
+    frais_mensuels = frais_annuels_total / 12
 
     # Organisation des résultats sur deux lignes
     col1, col2 = st.columns([1, 1])  # Première ligne
     col1.metric("Revenu après investissement (€)", f"{AV_revenu + AV_revenu_locatif + (loyer_mensuel)-frais_mensuels :,.2f}".replace(',', ' '))
     col2.metric("Rentabilité brute (%)", f"{rentabilite_brute:,.2f}".replace(',', ' '))
+    st.caption("_La rentabilité brute est le pourcentage du revenu locatif annuel par rapport au coût total du bien._")
 
     col3, col4 = st.columns([1, 1])  # Deuxième ligne
     col3.metric("Rentabilité nette avant impôts (%)", f"{rentabilite_nette:,.2f}".replace(',', ' '))
+    st.caption("_La rentabilité nette est la rentabilité après déduction des charges et taxes, avant impôts._")
     col4.metric("Mensualité totale (€)", f"{mensualite_pret_totale + AV_mensualite:,.2f}".replace(',', ' '))
     
     st.subheader(f"Taux d'endettement final (%) : {taux_endettement_final:,.2f}")
@@ -59,6 +61,7 @@ with st.container():
     
     col5, col6 = st.columns([1, 1])  # Troisième ligne (pour cashflow et mensualités du nouveau prêt)
     col5.metric("Cashflow mensuel (€) - nouveau bien", f"{cashflow_mensuel:,.2f}".replace(',', ' '))
+    st.caption("_Le cashflow mensuel est le montant restant chaque mois après le paiement des charges et des mensualités._")
     col6.metric("Mensualité (prêt + assurance) - nouveau prêt (€)", f"{mensualite_pret_totale:,.2f}".replace(',', ' '))
     st.write("---")  # Ligne de séparation pour mieux structurer la page
 
@@ -116,4 +119,3 @@ st.session_state.update({
     "mensualite_pret_totale": mensualite_pret_totale,
     "frais_annuels_total": frais_annuels_total,
 })
-
