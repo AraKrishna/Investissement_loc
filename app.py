@@ -77,7 +77,7 @@ with st.container():
     with col2:
         AV_total_revenu = AV_revenu + (AV_pourcentage_revenu_locatif / 100) * AV_revenu_locatif
         col2.metric("Taux d'endettement actuel (%)", f"{AV_mensualite / (AV_total_revenu - AV_charges) * 100:,.2f}".replace(',', ' '))
-
+st.write("---")  # Ligne de séparation pour mieux structurer la page
 
 # ---- Formulaire d'Entrées : Bien locatif ------------------------
 with st.container():
