@@ -49,7 +49,7 @@ with st.container():
     col1, col2 = st.columns([1, 1])  # Première ligne
     col1.metric("Revenu après investissement (€)", f"{AV_revenu + AV_revenu_locatif + (loyer_mensuel)-frais_mensuels :,.2f}".replace(',', ' '))
     col2.metric("Rentabilité brute (%)", f"{rentabilite_brute:,.2f}".replace(',', ' '))
-    st.caption("_La rentabilité brute est le pourcentage du revenu locatif annuel par rapport au coût total du bien._")
+    st.caption("_La rentabilité brute est le pourcentage du revenu locatif annuel par rapport au coût total du bien (prix d'achat + frais de notaires)._")
     st.caption("_La rentabilité nette est la rentabilité après déduction des charges et taxes, avant impôts._")
     
     col3, col4 = st.columns([1, 1])  # Deuxième ligne
