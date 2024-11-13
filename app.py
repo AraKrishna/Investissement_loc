@@ -101,7 +101,7 @@ with st.container():
 
     frais_notaires = (taux_frais_notaires / 100) * prix_achat
     st.metric("Frais de notaires (€)", f"{frais_notaires:,.2f}".replace(',', ' '))
-
+st.write("---")  # Ligne de séparation pour mieux structurer la page
 
 # ---- Calculs et mise à jour des valeurs dans session_state ----
 frais_annuels_total = (charges_copropriete * 12) + taxe_fonciere
